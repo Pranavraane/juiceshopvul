@@ -1,8 +1,8 @@
 trigger:
-- master
+- none
 
 pool:
-  vmImage: windows-latest
+  name: default
 stages:
   - stage: TrivyScan
     jobs:
