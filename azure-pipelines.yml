@@ -1,19 +1,20 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
 pool:
   vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  - stage: TrivyScan
+    jobs:
+      - job: RunTrivy
+        displayName: 'Run Trivy Scan on Local Repo'
+        steps:
+          - checkout: none  # 👈 This is important to prevent cloning anything
+ 
+          - task: PowerShell@2
+            displayName: 'Run Trivy on local WebGoat'
+            inputs:
+              targetType: 'inline'
+              script: |
+                cd "C:\Gitlab_CI_Integration\Trivy\trivy_0.62.1_windows-64bit"
+                .\trivy.exe fs "C:\Gitlab_CI_Integration\Trivy\juice-shop-master" --exit-code=0 > "C:\Gitlab_CI_Integration\Trivy\Reports\SoftwareCompoAanalysis_juice.txt"
