@@ -2,7 +2,7 @@ trigger:
 - none
 
 pool:
-  name: default
+  name: Azure Pipelines
 stages:
   - stage: TrivyScan
     jobs:
